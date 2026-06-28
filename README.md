@@ -6,7 +6,7 @@ An end-to-end analytics project built on the Online Retail II dataset (~1M trans
 
 ## 1. Data Overview
 
-- **Source:** UK Online Retail II dataset (2009–2011 transaction logs)
+- **Source:** [UK Online Retail II dataset](https://archive.ics.uci.edu/dataset/502/online+retail+ii) (UCI Machine Learning Repository), 2009–2011 transaction logs. Raw CSV isn't included in this repo — download it directly from the source link above if you want to rerun the pipeline.
 - **Volume:** ~1,000,000 line items
 - **Process:** Raw data was cleaned and staged in SQL before being loaded into Power BI as a star schema (`fact_sales` linked to `dim_customer`, `dim_product`, and `dim_date`)
 - **Cleaning notes:**
@@ -40,11 +40,11 @@ An end-to-end analytics project built on the Online Retail II dataset (~1M trans
 
 **What the data shows:**
 - The business is highly seasonal. Revenue stays fairly flat through Q1–Q3, then climbs sharply from August onward and peaks every November at around £1.5M/month. Outside that window, the company is essentially running on a much thinner margin of cash flow.
-- 2010 and 2011 had almost identical gross revenue (+0.97% growth), but returns nearly doubled — from £237K in 2010 to £454K in 2011 — pushing the return rate from 2.56% to 4.85%. In other words, the business didn't grow much, but it got noticeably worse at keeping what it sold.
+- 2010 and 2011 had almost identical gross revenue (+0.97% growth), but returns nearly doubled — from £237K in 2010 to £454K in 2011 — pushing the return rate from 2.56% to 4.85%. **In other words, the business didn't grow much, but it got noticeably worse at keeping what it sold.**
 
 **Recommendations:**
-- Treat the Q4 surge as a buffer, not a bonus. Set aside a portion of November's peak revenue specifically to cover the slower January–April months instead of spending it as if it were steady income.
-- Dig into why returns rose in 2011 even though sales didn't. This is worth investigating before assuming it's a one-off — it could point to a packaging issue, a product quality problem, or even inaccurate listings that are setting the wrong expectations.
+- **Treat the Q4 surge as a buffer, not a bonus.** Set aside a portion of November's peak revenue specifically to cover the slower January–April months instead of spending it as if it were steady income.
+- **Dig into why returns rose in 2011 even though sales didn't.** This is worth investigating before assuming it's a one-off — it could point to a packaging issue, a product quality problem, or even inaccurate listings that are setting the wrong expectations.
 
 ---
 
@@ -53,11 +53,11 @@ An end-to-end analytics project built on the Online Retail II dataset (~1M trans
 
 **What the data shows:**
 - The UK accounts for about 85% of net revenue over the two-year period. Among the remaining international sales, EIRE (Ireland) and mainland Europe — particularly the Netherlands and Germany — are clearly the strongest markets.
-- A handful of smaller markets (Switzerland, Spain, Belgium, Sweden, Denmark) consistently show up in the top 10 for international revenue, despite getting no dedicated marketing attention. That's a reasonable signal there's some organic demand worth testing further.
-- Guest checkouts generated about £2.8M — nearly 5x more than the single highest-spending registered customer (Customer ID 18102, at ~£0.6M). It's hard to say for certain without more context on how the business runs, but this likely points to either a loyalty/retention gap or simply that guest checkout is the easier, preferred option for most buyers.
+- A handful of smaller markets (Switzerland, Spain, Belgium, Sweden, Denmark) consistently show up in the top 10 for international revenue, despite getting no dedicated marketing attention. **That's a reasonable signal there's some organic demand worth testing further.**
+- Guest checkouts generated about £2.8M — **nearly 5x more than the single highest-spending registered customer** (Customer ID 18102, at ~£0.6M). It's hard to say for certain without more context on how the business runs, but this likely points to either a loyalty/retention gap or simply that guest checkout is the easier, preferred option for most buyers.
 
 **Recommendations:**
-- Focus international marketing spend on EIRE, the Netherlands, and Germany rather than spreading it thin across many countries — these markets already show the strongest organic pull.
+- **Focus international marketing spend on EIRE, the Netherlands, and Germany** rather than spreading it thin across many countries — these markets already show the strongest organic pull.
 - Run small, low-cost tests in a couple of the "emerging" markets (e.g., Switzerland and Spain) — localized checkout currency or a translated landing page — to see if demand responds before committing a bigger budget.
 - Look into converting some guest checkouts into registered accounts (e.g., a simple incentive at checkout), mainly to get better visibility into repeat customers and lifetime value, while keeping the option to check out as a guest for those who prefer it.
 
@@ -68,11 +68,11 @@ An end-to-end analytics project built on the Online Retail II dataset (~1M trans
 
 **What the data shows:**
 - A small set of products carries most of the revenue. The Regency Cakestand 3-Tier (£314K) and the White Hanging Heart T-Light Holder (£252K) are the clear top performers.
-- A few SKUs stand out for the wrong reason. "Paper Craft, Little Birdie" brought in £168,470 in gross revenue — and lost essentially the same amount to returns, a near-100% return rate. Medium Ceramic Storage Jars weren't far behind, with £77,480 in returns against £81,701 in sales.
+- A few SKUs stand out for the wrong reason. "Paper Craft, Little Birdie" brought in £168,470 in gross revenue — **and lost essentially the same amount to returns, a near-100% return rate.** Medium Ceramic Storage Jars weren't far behind, with £77,480 in returns against £81,701 in sales.
 
 **Recommendations:**
 - Make sure stock levels for the top-performing SKUs (Cakestand, T-Light Holder) are well managed heading into the August–November ramp-up, since running out during peak season would have an outsized impact on revenue.
-- Pause and investigate the "Paper Craft, Little Birdie" and Ceramic Storage Jar SKUs before reordering. A return rate that high usually points to a quality or packaging problem rather than normal customer behavior, and it's worth confirming before restocking.
+- **Pause and investigate the "Paper Craft, Little Birdie" and Ceramic Storage Jar SKUs before reordering.** A return rate that high usually points to a quality or packaging problem rather than normal customer behavior, and it's worth confirming before restocking.
 
 ---
 
@@ -115,3 +115,5 @@ Some StockCodes had slightly inconsistent description text across rows (casing, 
 - `enterprise_retail_analytics.pbix` — Power BI file with the data model and report pages
 - `/sql_pipeline` — SQL scripts used for cleaning and staging the raw data
 - `/screenshots` — Dashboard screenshots referenced in this README
+
+> **Note:** The raw dataset CSV (~40MB) is intentionally excluded from this repo (see `.gitignore`). Download it from the source link in section 1 if you want to run the pipeline yourself.
