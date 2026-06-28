@@ -116,4 +116,4 @@ Some StockCodes had slightly inconsistent description text across rows (casing, 
 - `/sql_pipeline` — SQL scripts used for cleaning and staging the raw data
 - `/screenshots` — Dashboard screenshots referenced in this README
 
-> **Note:** The raw dataset CSV (~40MB) is intentionally excluded from this repo (see `.gitignore`). Download it from the source link in section 1 if you want to run the pipeline yourself.
+> **Note:** The raw dataset CSV (~40MB) is intentionally excluded from this repo. Download it from the source link in section 1 if you want to run the pipeline yourself.
