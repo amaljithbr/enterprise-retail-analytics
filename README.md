@@ -49,7 +49,7 @@ An end-to-end analytics project built on the Online Retail II dataset (~1M trans
 ---
 
 ### Page 2 — Geographic & Customer Insights
-![Geographic and Customer Insights Dashboard](screenshots/geographic_customer_insights.jpg)
+![Geographic and Customer Insights Dashboard](screenshots/geographic_customer_insights.png)
 
 **What the data shows:**
 - The UK accounts for about 85% of net revenue over the two-year period. Among the remaining international sales, EIRE (Ireland) and mainland Europe — particularly the Netherlands and Germany — are clearly the strongest markets.
