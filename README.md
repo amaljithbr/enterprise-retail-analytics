@@ -39,12 +39,12 @@ An end-to-end analytics project built on the Online Retail II dataset (~1M trans
 ![Executive Summary Dashboard](screenshots/executive_summary.png)
 
 **What the data shows:**
-- The business is highly seasonal. Revenue stays fairly flat through Q1–Q3, then climbs sharply from August onward and peaks every November at around £1.5M/month. Outside that window, the company is essentially running on a much thinner margin of cash flow.
 - 2010 and 2011 had almost identical gross revenue (+0.97% growth), but returns nearly doubled — from £237K in 2010 to £454K in 2011 — pushing the return rate from 2.56% to 4.85%. **In other words, the business didn't grow much, but it got noticeably worse at keeping what it sold.**
+- The business is highly seasonal. Revenue stays fairly flat through Q1–Q3, then climbs sharply from August onward and peaks every November at around £1.5M/month. Outside that window, the company is essentially running on a much thinner margin of cash flow.
 
 **Recommendations:**
-- **Treat the Q4 surge as a buffer, not a bonus.** Set aside a portion of November's peak revenue specifically to cover the slower January–April months instead of spending it as if it were steady income.
 - **Dig into why returns rose in 2011 even though sales didn't.** This is worth investigating before assuming it's a one-off — it could point to a packaging issue, a product quality problem, or even inaccurate listings that are setting the wrong expectations.
+- **Treat the Q4 surge as a buffer, not a bonus.** Set aside a portion of November's peak revenue specifically to cover the slower January–April months instead of spending it as if it were steady income.
 
 ---
 
