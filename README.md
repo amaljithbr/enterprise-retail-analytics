@@ -1,82 +1,117 @@
-# Enterprise Retail Analytics Platform (UK Online Retail II)
+# UK Online Retail II — Power BI Analytics Project
 
-An end-to-end Business Intelligence and Data Engineering portfolio project. This repository contains the SQL Medallion staging pipeline and an interactive Power BI desktop tool designed to transform ~1,000,000 rows of raw e-commerce transaction logs into C-suite strategic insights.
+An end-to-end analytics project built on the Online Retail II dataset (~1M transaction rows, 2009–2011). Data was cleaned and staged using SQL, then modeled and visualized in Power BI to surface practical, business-relevant insights.
 
 ---
 
 ## 1. Data Overview
 
-* **Source Dataset:** UK Online Retail II Historical Logs (2009–2011).
-* **Volume:** ~1,000,000 unindexed transactional line items.
-* **Architecture:** Staged in SQL via a **Medallion Pipeline** (Bronze $\rightarrow$ Silver $\rightarrow$ Gold) and imported into Power BI as a normalized **Star Schema** (`fact_sales` surrounded by `dim_customer`, `dim_product`, and `Dim_Date`).
-* **Sanitation Protocol:** Engineered SQL `COALESCE` handling to capture millions in unauthenticated checkout traffic under a centralized `'Guest'` key. Purged over **£240,000+** in non-physical administrative ledger noise (e.g., Amazon platform fees, manual bank charges) from warehouse logistics metrics via DAX string-exclusion flags.
+- **Source:** UK Online Retail II dataset (2009–2011 transaction logs)
+- **Volume:** ~1,000,000 line items
+- **Process:** Raw data was cleaned and staged in SQL before being loaded into Power BI as a star schema (`fact_sales` linked to `dim_customer`, `dim_product`, and `dim_date`)
+- **Cleaning notes:**
+  - Unauthenticated/guest orders (missing Customer IDs) were grouped under a single `'Guest'` key rather than dropped, since they still represent real revenue
+  - Removed roughly £240K+ of non-product entries (Amazon fees, bank charges, and other admin/ledger noise) that aren't actual merchandise transactions and would skew product-level metrics
 
 ---
 
-## 2. North Star Metrics & Dimensions Used
+## 2. North Star Metrics & Dimensions
 
-### Core KPIs (North Star)
-* **Gross Revenue (£19.45M):** Total baseline cash flow captured prior to order cancellations.
-* **Net Revenue (£18.73M):** True realized topline cash generated (`Gross Revenue - Lost to Returns`).
-* **Lost to Returns (£711.91K):** Sanitized monetary value of defective or cancelled physical merchandise.
-* **Return Rate % (3.66%):** Percentage of gross volume leaked to physical inventory returns.
+**Core metrics**
+- **Gross Revenue:** £19.45M — total revenue before returns
+- **Net Revenue:** £18.73M — revenue after returns are deducted
+- **Lost to Returns:** £711.91K — value of returned/cancelled merchandise
+- **Return Rate:** 3.66% — share of gross revenue lost to returns
 
-### Primary Analytical Dimensions
-* **Chronological:** Year, Fiscal Quarter, Year-Month Indexing.
-* **Geographic:** UK Core vs. International Expansion Markets (Top 10 Ex-UK territories).
-* **Customer Segments:** Authenticated Corporate/B2B Accounts vs. Unregistered 'Guest' checkouts.
-* **Inventory:** Physical SKU Descriptions, Line-Item Refund Totals.
+**Dimensions used**
+- Time: Year, Quarter, Year-Month
+- Geography: UK vs. international markets
+- Customer type: Registered customers vs. Guest checkouts
+- Product: SKU-level revenue and return totals
 
 ---
 
-## 3. Summary of Insights & Strategic Recommendations
+## 3. Insights & Recommendations
 
-### Page 1: Executive Summary (Macro Topline)
+📊 *The interactive Power BI dashboard behind these insights can be downloaded [here](enterprise_retail_analytics.pbix).*
 
+### Page 1 — Executive Summary
 ![Executive Summary Dashboard](screenshots/executive_summary.png)
 
-#### 🔍 Key Insights
-1. **Extreme Q4 Seasonality:** The business is heavily bound to holiday consumer cycles. Revenue consistently languishes in Q1–Q3 before initiating aggressive vertical climbs in August, ultimately peaking every November (generating ~£1.5M/month).
-2. **Stagnant Return Rates Despite Flat Growth:** Year-over-Year gross revenue growth between 2010 and 2011 was virtually flat (**+0.97%**). However, physical return losses nearly doubled from £237K (2010) to £454K (2011), driving the annual return rate up from **2.56% to 4.85%**. 
+**What the data shows:**
+- The business is highly seasonal. Revenue stays fairly flat through Q1–Q3, then climbs sharply from August onward and peaks every November at around £1.5M/month. Outside that window, the company is essentially running on a much thinner margin of cash flow.
+- 2010 and 2011 had almost identical gross revenue (+0.97% growth), but returns nearly doubled — from £237K in 2010 to £454K in 2011 — pushing the return rate from 2.56% to 4.85%. In other words, the business didn't grow much, but it got noticeably worse at keeping what it sold.
 
-#### 🚀 Strategic Recommendations
-* **Establish Q1 Cash Reserves:** Leadership must cease treating Q4 peak cash flow as operational surplus. The finance department should institute a strict treasury policy to ring-fence November profits to subsidize the predictable liquidity droughts experienced every January–April.
-* **Initiate 2011 Return Root-Cause Analysis:** Operations must investigate why product returns accelerated in 2011 despite flat topline sales. This divergence indicates emerging manufacturing defects, declining packaging standards, or inaccurate website product listings rather than organic sales volume scaling.
+**Recommendations:**
+- Treat the Q4 surge as a buffer, not a bonus. Set aside a portion of November's peak revenue specifically to cover the slower January–April months instead of spending it as if it were steady income.
+- Dig into why returns rose in 2011 even though sales didn't. This is worth investigating before assuming it's a one-off — it could point to a packaging issue, a product quality problem, or even inaccurate listings that are setting the wrong expectations.
 
 ---
 
-### Page 2: Geographic & Customer Strategy (Commercial Operations)
-
+### Page 2 — Geographic & Customer Insights
 ![Geographic and Customer Insights Dashboard](screenshots/geographic_customer_insights.jpg)
 
-#### 🔍 Key Insights
-1. **Heavy UK Over-Reliance:** The domestic UK market captures **85%** of all historical net revenue. When isolating the remaining 15% international share, **EIRE (Ireland) (£0.61M)** and **Mainland Europe** (Netherlands: £0.54M, Germany: £0.37M) clearly dominate. 
-2. **Emerging Secondary Markets:** Tier-2 European nations (Switzerland, Spain, Belgium, Sweden, Denmark) consistently appear in the Top 10 international leaderboard despite receiving zero localized marketing focus.
-3. **The Unregistered Checkout Anomaly:** Unauthenticated **'Guest' checkouts generated £2.8M** in revenue—nearly **5x more volume** than the company’s single largest registered corporate B2B client (`CustomerID 18102` at £0.6M).
+**What the data shows:**
+- The UK accounts for about 85% of net revenue over the two-year period. Among the remaining international sales, EIRE (Ireland) and mainland Europe — particularly the Netherlands and Germany — are clearly the strongest markets.
+- A handful of smaller markets (Switzerland, Spain, Belgium, Sweden, Denmark) consistently show up in the top 10 for international revenue, despite getting no dedicated marketing attention. That's a reasonable signal there's some organic demand worth testing further.
+- Guest checkouts generated about £2.8M — nearly 5x more than the single highest-spending registered customer (Customer ID 18102, at ~£0.6M). It's hard to say for certain without more context on how the business runs, but this likely points to either a loyalty/retention gap or simply that guest checkout is the easier, preferred option for most buyers.
 
-#### 🚀 Strategic Recommendations
-* **Target Western European Ad Spend:** Marketing should halt scattered global ad-spend and concentrate international expansion budgets strictly into EIRE, the Netherlands, and Germany to build regional fulfillment density.
-* **Launch Secondary Market Experiments:** Allocate 10% of the growth budget to test localized currency checkout and translated landing pages in Switzerland and Spain to capitalize on organic baseline demand.
-* **Plug the Guest Data Leak:** The business is hemorrhaging customer lifetime value (LTV) tracking. E-commerce teams must immediately introduce post-checkout incentives (e.g., *"Create a password now to track this order and receive 10% off your next purchase"*) to convert the £2.8M anonymous buyer pool into trackable, marketable accounts.
+**Recommendations:**
+- Focus international marketing spend on EIRE, the Netherlands, and Germany rather than spreading it thin across many countries — these markets already show the strongest organic pull.
+- Run small, low-cost tests in a couple of the "emerging" markets (e.g., Switzerland and Spain) — localized checkout currency or a translated landing page — to see if demand responds before committing a bigger budget.
+- Look into converting some guest checkouts into registered accounts (e.g., a simple incentive at checkout), mainly to get better visibility into repeat customers and lifetime value, while keeping the option to check out as a guest for those who prefer it.
 
 ---
 
-### Page 3: Product Performance (Warehouse Logistics)
-
+### Page 3 — Product Performance
 ![Product Performance Dashboard](screenshots/product_performance.png)
 
-#### 🔍 Key Insights
-1. **Concentrated Hero SKUs:** Physical product sales are anchored by a small cluster of household decorative items. The **Regency Cakestand 3-Tier (£314K)** and **White Hanging Heart T-Light Holder (£252K)** represent undeniable inventory cash cows.
-2. **Severe Margin-Leaking SKUs:** The **'Paper Craft, Little Birdie'** SKU represents a catastrophic operational failure: it generated £168,470 in gross revenue, but logged **£168,470 in refunds**, resulting in a **100% net loss** to the warehouse. Similarly, **Medium Ceramic Storage Jars** leaked £77,480 in refunds against £81,701 in sales.
+**What the data shows:**
+- A small set of products carries most of the revenue. The Regency Cakestand 3-Tier (£314K) and the White Hanging Heart T-Light Holder (£252K) are the clear top performers.
+- A few SKUs stand out for the wrong reason. "Paper Craft, Little Birdie" brought in £168,470 in gross revenue — and lost essentially the same amount to returns, a near-100% return rate. Medium Ceramic Storage Jars weren't far behind, with £77,480 in returns against £81,701 in sales.
 
-#### 🚀 Strategic Recommendations
-* **Ring-Fence Hero SKU Supply Chains:** The supply chain director must establish automated re-order point (ROP) thresholds for the Cakestand and T-Light holders. Stockouts on these two specific SKUs during the August–November ramp-up represent the single largest existential threat to annual company revenue.
-* **Quarantine Defective Batches:** Quality Assurance must immediately halt procurement and audit the manufacturing line for *Paper Craft* and *Ceramic Storage Jars*. A 95%+ return rate points to severe factory defects or fragile transit packaging that cannot survive standard postal freight.
+**Recommendations:**
+- Make sure stock levels for the top-performing SKUs (Cakestand, T-Light Holder) are well managed heading into the August–November ramp-up, since running out during peak season would have an outsized impact on revenue.
+- Pause and investigate the "Paper Craft, Little Birdie" and Ceramic Storage Jar SKUs before reordering. A return rate that high usually points to a quality or packaging problem rather than normal customer behavior, and it's worth confirming before restocking.
 
 ---
 
-## 4. Technical File Structure
+## 4. Data Cleaning
 
-* `enterprise_retail_analytics.pbix`: Master Power BI Desktop application containing the indexed Star Schema and report canvas.
-* `/sql_pipeline`: DDL and DML scripts utilized for Bronze-to-Gold data transformation and null handling.
-* `/screenshots`: High-resolution dashboard renders utilized for executive documentation.
+A few cleaning decisions were worth calling out explicitly, since they affect how the numbers above should be interpreted.
+
+**Handling missing customers**
+```sql
+COALESCE(NULLIF(TRIM(CustomerID), ''), 'Guest') AS CustomerID
+```
+CustomerID was blank in two different ways in the raw data — true NULLs and empty strings after trimming whitespace. Rather than dropping these rows (which would have thrown away real revenue), they're grouped under a single `'Guest'` key so they still show up in revenue totals while being clearly separated from authenticated customers.
+
+**Removing duplicate line items**
+```sql
+ROW_NUMBER() OVER (
+    PARTITION BY Invoice, StockCode, Quantity, InvoiceDate 
+    ORDER BY Invoice
+) AS duplicate_flag
+```
+The raw export had duplicate rows for some line items. Partitioning on Invoice + StockCode + Quantity + InvoiceDate together (rather than just Invoice) keeps two genuinely different items on the same invoice intact, while removing exact repeats — only `duplicate_flag = 1` is kept in the final table.
+
+**Filtering out non-sale noise**
+```sql
+WHERE Price > 0 
+  AND Invoice NOT LIKE 'A%'
+```
+`Price > 0` removes zero-value rows (freebies, write-offs, and similar non-sale entries) that would otherwise distort average order value and product revenue. `Invoice NOT LIKE 'A%'` excludes a small set of "bad debt adjustment" entries in this dataset that aren't real customer transactions and shouldn't be counted as sales or returns.
+
+**Building a clean product dimension**
+```sql
+ROW_NUMBER() OVER(PARTITION BY Clean_StockCode ORDER BY InvoiceDate DESC) as rn
+```
+Some StockCodes had slightly inconsistent description text across rows (casing, spacing, or minor wording differences). Codes were standardized with `UPPER(TRIM(...))`, then the most recent description per code was kept as the canonical label, so each product maps to a single clean name in the dashboard.
+
+---
+
+## 5. Project Structure
+
+- `enterprise_retail_analytics.pbix` — Power BI file with the data model and report pages
+- `/sql_pipeline` — SQL scripts used for cleaning and staging the raw data
+- `/screenshots` — Dashboard screenshots referenced in this README
