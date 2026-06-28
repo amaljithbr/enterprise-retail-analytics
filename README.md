@@ -8,7 +8,7 @@ An end-to-end analytics project built on the Online Retail II dataset (~1M trans
 
 - **Source:** [UK Online Retail II dataset](https://archive.ics.uci.edu/dataset/502/online+retail+ii) (UCI Machine Learning Repository), 2009–2011 transaction logs. Raw CSV isn't included in this repo — download it directly from the source link above if you want to rerun the pipeline.
 - **Volume:** ~1,000,000 line items
-- **Process:** Raw data was cleaned and staged in SQL before being loaded into Power BI as a star schema (`fact_sales` linked to `dim_customer`, `dim_product`, and `dim_date`)
+- **Process:** Raw data was cleaned and staged in SQL before being loaded into Power BI as a star schema (`fact_sales` linked to `dim_product`, and `dim_date`)
 - **Cleaning notes:**
   - Unauthenticated/guest orders (missing Customer IDs) were grouped under a single `'Guest'` key rather than dropped, since they still represent real revenue
   - Removed roughly £240K+ of non-product entries (Amazon fees, bank charges, and other admin/ledger noise) that aren't actual merchandise transactions and would skew product-level metrics
